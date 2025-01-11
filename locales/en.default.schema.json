@@ -1445,7 +1445,7 @@
           "settings": {
             "heading": {
               "label": "Heading",
-              "default": "Image banner"
+              "default": "WPB Image banner"
             }
           }
         },
