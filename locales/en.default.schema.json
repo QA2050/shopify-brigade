@@ -1502,6 +1502,9 @@
         "name": "WPB Image banner"
       }
     },
+    "wpb-Video-popup": {
+      "name": "Video Popup"
+    },
     "image-with-text": {
       "name": "Image with text",
       "settings": {
