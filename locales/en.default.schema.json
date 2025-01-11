@@ -3586,6 +3586,38 @@
       "presets": {
         "name": "Collapsible content"
       }
+    },
+    "video-pop-up": {
+      "name": "Video Popup",
+      "settings": {
+        "column_alignment": {
+          "label": "Column Alignment",
+          "options__1": {
+            "label": "Left"
+          },
+          "options__2": {
+            "label": "Center"
+          }
+        },
+        "cover_image": {
+          "label": "Cover Image"
+        },
+        "video_url": {
+          "label": "Video URL",
+          "placeholder": "Enter video URL",
+          "info": "Supported platforms: YouTube, Vimeo"
+        },
+        "alt_text": {
+          "label": "Alt Text",
+          "info": "Alternative text for the video"
+        },
+        "height": {
+          "label": "Height"
+        }
+      },
+      "presets": {
+        "name": "Video Popup"
+      }
     }
   }
 }
