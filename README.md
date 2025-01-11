@@ -79,8 +79,3 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 ---
 
-## Contact  
-Muhammad Bilal  
-QA Lead, WPBrigade  
-Al Khalil Plaza Office # 301, 302  
-Kashmir Road - Sialkot  
