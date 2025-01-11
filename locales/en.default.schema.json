@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "settings_schema": {
     "global": {
@@ -3578,87 +3587,5 @@
         "name": "Collapsible content"
       }
     }
-    "video-pop-up": {
-      "name": "Video Popup",
-      "settings": {
-        "column_alignment": {
-          "label": "Column Alignment",
-          "options__1": {
-            "label": "Left"
-          },
-          "options__2": {
-            "label": "Center"
-          }
-        },
-        "cover_image": {
-          "label": "Cover Image"
-        },
-        "video_url": {
-          "label": "Video URL",
-          "placeholder": "Enter video URL",
-          "info": "Supported platforms: YouTube, Vimeo"
-        },
-        "alt_text": {
-          "label": "Alt Text",
-          "info": "Alternative text for the video"
-        },
-        "height": {
-          "label": "Height"
-        }
-      },
-      "presets": {
-        "name": "Video Popup"
-      }
-    },
-    "all": {
-      "page_full_width": {
-        "label": "Page Full Width"
-      },
-      "page_full_width_spacing": {
-        "label": "Page Full Width Spacing"
-      },
-      "title": {
-        "label": "Title"
-      },
-      "heading_size": {
-        "label": "Heading Size",
-        "options__1": {
-          "label": "H3"
-        },
-        "options__2": {
-          "label": "H2"
-        },
-        "options__3": {
-          "label": "H1"
-        }
-      },
-      "sub_heading": {
-        "label": "Sub Heading"
-      },
-      "description": {
-        "label": "Description"
-      },
-      "button_label": {
-        "label": "Button Label"
-      },
-      "button_link": {
-        "label": "Button Link"
-      },
-      "button_style_secondary": {
-        "label": "Use Outline Button Style"
-      },
-      "colors": {
-        "label": "Color Scheme"
-      },
-      "padding": {
-        "section_padding_heading": "Section Padding",
-        "padding_top": "Padding Top",
-        "padding_bottom": "Padding Bottom"
-      }
-    }
-
-
-
-
   }
 }
