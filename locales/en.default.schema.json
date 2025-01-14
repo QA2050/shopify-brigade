@@ -3426,7 +3426,8 @@
         "name": "Collapsible content"
       }
     },
-   "wpb-Video-popup": {
+    "wpb-Video-popup": {
+      "name": "WPB Video popup",
       "settings": {
         "page_full_width": {
           "label": "Make section full width"
@@ -3476,8 +3477,11 @@
         "height": {
           "label": "Video Height"
         }
+      },
+      "presets": {
+          "name": "WPB Video popup"
       }
-    },
+  },
 
     "wpb-image-banner": {
       "name": "WPB Image banner",
