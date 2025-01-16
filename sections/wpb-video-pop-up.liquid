@@ -141,6 +141,7 @@
       var video = popup.querySelector("video");
       if (video) {
         video.pause(); // Pause the video element
+        video.currentTime = 0; // Reset the video to the beginning
       }
     }
     popup.style.display = "none";
@@ -154,6 +155,7 @@
     }
   }
 </script>
+
 
 <style>
   /* Style the thumbnail container */
