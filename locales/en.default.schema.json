@@ -3426,78 +3426,63 @@
         "name": "Collapsible content"
       }
     },
-    "Video-popup": {
+    "video-popup": {
       "name": "WPB Video popup",
       "settings": {
-          "heading": {
-              "label": "Heading"
-          },
-          "sub_heading": {
-              "label": "Sub heading"
-          },
-          "text": {
-              "label": "Video text"
-          },
-          "button_label": {
-              "label": "Button label"
-          },
-          "button_link": {
-              "label": "Button link"
-          },
-          "button_style_secondary": {
-              "label": "Use outline button style"
-          },
-          "column_alignment": {
-              "label": "Column alignment",
-              "options__1": {
-                  "label": "Left"
-              },
-              "options__2": {
-                  "label": "Center"
-              }
-          },
-          "cover_image": {
-              "label": "Cover image"
-          },
-          "video_url": {
-              "label": "URL",
-              "placeholder": "Use a YouTube or Vimeo URL",
-              "info": "Video plays in the page."
-          },
-          "alt_text": {
-              "label": "Video alt text",
-              "info": "Describe the video for customers using screen readers."
-          },
-          "height": {
-              "label": "Height"
-          },
-          "image_padding": {
-              "label": "Add image padding",
-              "info": "Select image padding if you don't want your cover image to be cropped."
-          },
-          "full_width": {
-              "label": "Make section full width"
-          },
-          "page_full_width": {
-              "label": "Full Width Page"
-          },
-          "page_full_width_spacing": {
-              "label": "Full Width Page Spacing"
-          },
-          "colors": {
-              "label": "Color Scheme"
-          },
-          "padding_top": {
-              "label": "Padding Top"
-          },
-          "padding_bottom": {
-              "label": "Padding Bottom"
-          }
+      "heading": {
+        "label": "Heading"
+      },
+      "sub_heading": {
+        "label": "Sub heading"
+      },
+      "text": {
+        "label": "Video text"
+      },
+      "button_label": {
+        "label": "Button label"
+      },
+      "button_link": {
+        "label": "Button link"
+      },
+      "button_style_secondary": {
+        "label": "Use outline button style"
+      },
+      "cover_image": {
+        "label": "Cover image"
+      },
+      "video_url": {
+        "label": "URL",
+        "placeholder": "Use a YouTube or Vimeo URL",
+        "info": "Video plays in the page."
+      },
+      "alt_text": {
+        "label": "Video alt text",
+        "info": "Describe the video for customers using screen readers."
+      },
+      "height": {
+        "label": "Height"
+      },
+      "image_padding": {
+        "label": "Add image padding",
+        "info": "Select image padding if you don't want your cover image to be cropped."
+      },
+      "full_width": {
+        "label": "Make section full width"
+      },
+      "colors": {
+        "label": "Color Scheme"
+      },
+      "padding_top": {
+        "label": "Padding Top"
+      },
+      "padding_bottom": {
+        "label": "Padding Bottom"
+      }
       },
       "presets": {
-          "name": "Video popup"
+      "name": "Video popup"
       }
-  },
+    },
 
     "wpb-image-banner": {
       "name": "WPB Image banner",
