@@ -20,29 +20,8 @@
 <div class="video-popup-container section-{{ section.id }}-padding">
   <!-- Thumbnail with Play Button -->
   <div class="video-thumbnail">
-   
-    {%- if section.settings.image != blank -%}
-              {%- if section.settings.image_behavior == 'ambient' or section.settings.image_behavior == 'zoom-in' -%}
-                {%- assign widths = '198, 432, 642, 900, 1284, 1800' -%}
-                {%- capture sizes -%}
-              (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 1.6667 }}px,
-              (min-width: 750px) calc((100vw - 130px) / 1.667), calc((100vw - 50px) / 1.667)
-            {%- endcapture -%}
-              {%- else -%}
-                {%- assign widths = '165, 360, 535, 750, 1070, 1500' -%}
-                {%- capture sizes -%}
-              (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px,
-              (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)
-            {%- endcapture -%}
-              {%- endif -%}
-              {{
-                section.settings.image
-                | image_url: width: 1500
-                | image_tag: sizes: sizes, widths: widths, fetchpriority: fetch_priority
-              }}
-            {%- else -%}
-              {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
-            {%- endif -%}
+    <img src="{{ settings.thumbnail_image | img_url: 'medium' | default: 'https://via.placeholder.com/640x360?text=Video+Thumbnail' }}" 
+         alt="Video Thumbnail" class="thumbnail-image" width="640" height="360">
     <button class="play-button" onclick="openVideoPopup()">▶</button>
   </div>
 </div>
@@ -51,7 +30,41 @@
 <div id="videoPopup" class="video-popup">
   <div class="video-popup-content">
     <span class="close" onclick="closeVideoPopup()">&times;</span>
-    <iframe id="videoFrame" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+    {%- if section.settings.video == null and section.settings.video_url != null -%}
+      {%- liquid
+        assign loop = ''
+        if section.settings.enable_video_looping
+          assign loop = '&loop=1&playlist=' | append: video_id
+        endif
+      -%}
+      {%- if section.settings.video_url.type == 'youtube' -%}
+        <iframe
+          src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&autoplay=1{{ loop }}"
+          class="js-youtube"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+          title="{{ section.settings.description | escape }}"
+        ></iframe>
+      {%- else -%}
+        <iframe
+          src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1{{ loop }}"
+          class="js-vimeo"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+          title="{{ section.settings.description | escape }}"
+        ></iframe>
+      {%- endif -%}
+    {%- else -%}
+      {{
+        section.settings.video
+        | video_tag:
+          image_size: '1100x',
+          autoplay: true,
+          loop: section.settings.enable_video_looping,
+          controls: true,
+          muted: false
+      }}
+    {%- endif -%}
   </div>
 </div>
 
@@ -155,21 +168,21 @@
   "settings": [
     {
       "type": "image_picker",
-      "id": "image",
+      "id": "thumbnail_image",
       "label": "Thumbnail Image"
     },
-    
     {
       "type": "video_url",
       "id": "video_url",
-      "accept": [
-        "youtube",
-        "vimeo"
-      ],
+      "accept": ["youtube", "vimeo"],
       "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
-      "label": "t:sections.video-pop-up.settings.video_url.label",
-      "placeholder": "t:sections.video-pop-up.settings.video_url.placeholder",
-      "info": "t:sections.video-pop-up.settings.video_url.info"
+      "label": "t:sections.video.settings.video_url.label",
+      "info": "t:sections.video.settings.video_url.info"
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "t:sections.video.settings.cover_image.label"
     },
     {
       "type": "number",
