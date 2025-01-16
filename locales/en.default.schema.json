@@ -3426,7 +3426,7 @@
         "name": "Collapsible content"
       }
     },
-    "wpb-Video-popup": {
+    "Video-popup": {
       "name": "WPB Video popup",
       "settings": {
           "heading": {
@@ -3495,7 +3495,7 @@
           }
       },
       "presets": {
-          "name": "WPB Video popup"
+          "name": "Video popup"
       }
   },
 
