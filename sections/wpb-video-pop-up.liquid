@@ -130,9 +130,19 @@
     popup.style.display = "block";
   }
 
-  // Close the video popup
+  // Close the video popup and pause the video
   function closeVideoPopup() {
     var popup = document.getElementById("videoPopup");
+    var iframe = popup.querySelector("iframe");
+    if (iframe) {
+      var iframeSrc = iframe.src;
+      iframe.src = iframeSrc; // Reset the iframe src to pause the video
+    } else {
+      var video = popup.querySelector("video");
+      if (video) {
+        video.pause(); // Pause the video element
+      }
+    }
     popup.style.display = "none";
   }
 
