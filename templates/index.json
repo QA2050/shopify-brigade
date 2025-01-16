@@ -122,11 +122,21 @@
         "stack_images_on_mobile": true,
         "show_text_below": true
       }
+    },
+    "wpb_video_pop_up_WAYPkx": {
+      "type": "wpb-video-pop-up",
+      "settings": {
+        "thumbnail_image": "shopify://shop_images/flatlay-iron-skillet-with-meat-and-other-food.jpg",
+        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
     }
   },
   "order": [
     "image_banner",
     "featured_collection",
-    "wpb_image_banner_Kaj6m8"
+    "wpb_image_banner_Kaj6m8",
+    "wpb_video_pop_up_WAYPkx"
   ]
 }
