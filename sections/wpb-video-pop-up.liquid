@@ -95,6 +95,7 @@
       {%- if section.settings.video_url.type == 'youtube' -%}
         <iframe
           src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&autoplay=1{{ loop }}"
+          data-src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&autoplay=1{{ loop }}"
           class="js-youtube"
           allow="autoplay; encrypted-media"
           allowfullscreen
@@ -103,6 +104,7 @@
       {%- else -%}
         <iframe
           src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1{{ loop }}"
+          data-src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1{{ loop }}"
           class="js-vimeo"
           allow="autoplay; encrypted-media"
           allowfullscreen
@@ -159,8 +161,6 @@
     }
   }
 </script>
-
-
 
 <style>
   /* Style the thumbnail container */
