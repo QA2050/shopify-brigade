@@ -20,8 +20,29 @@
 <div class="video-popup-container section-{{ section.id }}-padding">
   <!-- Thumbnail with Play Button -->
   <div class="video-thumbnail">
-    <img src="{{ settings.thumbnail_image | img_url: 'medium' | default: 'https://via.placeholder.com/640x360?text=Video+Thumbnail' }}" 
-         alt="Video Thumbnail" class="thumbnail-image" width="640" height="360">
+   
+    {%- if section.settings.image != blank -%}
+              {%- if section.settings.image_behavior == 'ambient' or section.settings.image_behavior == 'zoom-in' -%}
+                {%- assign widths = '198, 432, 642, 900, 1284, 1800' -%}
+                {%- capture sizes -%}
+              (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 1.6667 }}px,
+              (min-width: 750px) calc((100vw - 130px) / 1.667), calc((100vw - 50px) / 1.667)
+            {%- endcapture -%}
+              {%- else -%}
+                {%- assign widths = '165, 360, 535, 750, 1070, 1500' -%}
+                {%- capture sizes -%}
+              (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px,
+              (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)
+            {%- endcapture -%}
+              {%- endif -%}
+              {{
+                section.settings.image
+                | image_url: width: 1500
+                | image_tag: sizes: sizes, widths: widths, fetchpriority: fetch_priority
+              }}
+            {%- else -%}
+              {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
     <button class="play-button" onclick="openVideoPopup()">▶</button>
   </div>
 </div>
@@ -134,9 +155,10 @@
   "settings": [
     {
       "type": "image_picker",
-      "id": "thumbnail_image",
+      "id": "image",
       "label": "Thumbnail Image"
     },
+    
     {
       "type": "video_url",
       "id": "video_url",
