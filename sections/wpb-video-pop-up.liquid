@@ -127,6 +127,10 @@
   // Open the video popup
   function openVideoPopup() {
     var popup = document.getElementById("videoPopup");
+    var iframe = popup.querySelector("iframe");
+    if (iframe) {
+      iframe.src = iframe.getAttribute("data-src"); // Set the iframe src from data-src
+    }
     popup.style.display = "block";
   }
 
@@ -135,8 +139,8 @@
     var popup = document.getElementById("videoPopup");
     var iframe = popup.querySelector("iframe");
     if (iframe) {
-      var iframeSrc = iframe.src;
-      iframe.src = iframeSrc; // Reset the iframe src to pause the video
+      iframe.setAttribute("data-src", iframe.src); // Store the current src in data-src
+      iframe.src = ""; // Clear the iframe src to pause the video
     } else {
       var video = popup.querySelector("video");
       if (video) {
@@ -155,6 +159,7 @@
     }
   }
 </script>
+
 
 
 <style>
