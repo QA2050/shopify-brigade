@@ -126,8 +126,9 @@
     "wpb_video_pop_up_WAYPkx": {
       "type": "wpb-video-pop-up",
       "settings": {
-        "image": "shopify://shop_images/flatlay-iron-skillet-with-meat-and-other-food.jpg",
+        "thumbnail_image": "shopify://shop_images/flatlay-iron-skillet-with-meat-and-other-food.jpg",
         "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+        "cover_image": "shopify://shop_images/flatlay-iron-skillet-with-meat-and-other-food.jpg",
         "padding_top": 20,
         "padding_bottom": 20
       }
