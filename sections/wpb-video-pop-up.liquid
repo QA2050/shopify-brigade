@@ -124,20 +124,15 @@
 </div>
 
 <script>
-  // Open the video popup
+   // Open the video popup
   function openVideoPopup() {
     var popup = document.getElementById("videoPopup");
-    var videoFrame = document.querySelector("#videoPopup iframe");
-    var videoUrl = "{{ settings.video_url }}"; // Dynamic video URL from settings
-    videoFrame.src = videoUrl;
     popup.style.display = "block";
   }
 
   // Close the video popup
   function closeVideoPopup() {
     var popup = document.getElementById("videoPopup");
-    var videoFrame = document.querySelector("#videoPopup iframe");
-    videoFrame.src = ""; // Stop video when closing
     popup.style.display = "none";
   }
 
