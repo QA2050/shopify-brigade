@@ -1,7 +1,7 @@
 {% comment %}
   WPB Swiper Slider Section for Shopify
   Requires Swiper.js library (loaded via CDN)
-  Includes breakpoints, centeredSlides, scrollbar, parallax, and thumbs
+  Includes breakpoints, centeredSlides, scrollbar, parallax, and optional thumbs
   Initializes Swiper on section load
 {% endcomment %}
 
@@ -154,16 +154,18 @@
       <div class="swiper-scrollbar"></div>
     </div>
 
-    <!-- Thumbs Swiper -->
-    <div class="swiper-container swiper-thumbs">
-      <div class="swiper-wrapper">
-        {% for block in section.blocks %}
-          <div class="swiper-slide">
-            <img src="{{ block.settings.image | img_url: 'small' }}" alt="{{ block.settings.title | escape }}">
-          </div>
-        {% endfor %}
+    <!-- Thumbs Swiper (Conditional) -->
+    {% if section.settings.enable_thumbs %}
+      <div class="swiper-container swiper-thumbs">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+            <div class="swiper-slide">
+              <img src="{{ block.settings.image | img_url: 'small' }}" alt="{{ block.settings.title | escape }}">
+            </div>
+          {% endfor %}
+        </div>
       </div>
-    </div>
+    {% endif %}
   </div>
 
   <!-- Swiper.js CDN -->
@@ -176,20 +178,23 @@
       const section = document.getElementById('swiper-section-' + sectionId);
       if (!section) return;
 
-      // Thumbs Swiper
-      var thumbsSwiper = new Swiper(section.querySelector('.swiper-thumbs'), {
-        spaceBetween: 10,
-        slidesPerView: {{ section.settings.thumbs_per_view }},
-        watchSlidesProgress: true,
-        breakpoints: {
-          480: {
-            slidesPerView: {{ section.settings.thumbs_per_view | times: 0.5 | floor | at_least: 2 }},
-          },
-          768: {
-            slidesPerView: {{ section.settings.thumbs_per_view | times: 0.75 | floor | at_least: 3 }},
+      // Thumbs Swiper (only if enabled)
+      let thumbsSwiper = null;
+      {% if section.settings.enable_thumbs %}
+        thumbsSwiper = new Swiper(section.querySelector('.swiper-thumbs'), {
+          spaceBetween: 10,
+          slidesPerView: {{ section.settings.thumbs_per_view }},
+          watchSlidesProgress: true,
+          breakpoints: {
+            480: {
+              slidesPerView: {{ section.settings.thumbs_per_view | times: 0.5 | floor | at_least: 2 }},
+            },
+            768: {
+              slidesPerView: {{ section.settings.thumbs_per_view | times: 0.75 | floor | at_least: 3 }},
+            }
           }
-        }
-      });
+        });
+      {% endif %}
 
       // Main Swiper
       var mainSwiper = new Swiper(section.querySelector('.swiper-main'), {
@@ -224,9 +229,11 @@
           el: section.querySelector('.swiper-scrollbar'),
           draggable: true,
         },
-        thumbs: {
-          swiper: thumbsSwiper
-        }
+        {% if section.settings.enable_thumbs %}
+          thumbs: {
+            swiper: thumbsSwiper
+          }
+        {% endif %}
       });
     }
 
@@ -263,6 +270,12 @@
       "id": "centered_slides",
       "label": "Center slides",
       "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_thumbs",
+      "label": "Enable thumbs slider",
+      "default": true
     },
     {
       "type": "range",
