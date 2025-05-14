@@ -4,7 +4,7 @@
   Supports manual slides or products as slides
   Includes breakpoints, centeredSlides, scrollbar, parallax, and optional thumbs
   Initializes Swiper on section load
-  Adds fallback for no products
+  Improved product list handling and debug output
 {% endcomment %}
 
 {%- style %}
@@ -112,6 +112,13 @@
     color: #fff;
     background: #333;
   }
+  .debug-info {
+    text-align: center;
+    padding: 10px;
+    background: #f8d7da;
+    color: #721c24;
+    margin-bottom: 10px;
+  }
   @media (max-width: 768px) {
     .swiper-container {
       height: 400px;
@@ -137,6 +144,15 @@
 {%- endstyle %}
 
 <div class="swiper-section" id="swiper-section-{{ section.id }}">
+  {% if section.settings.content_type == 'products' %}
+    {% comment %} Debug output for product selection {% endcomment %}
+    {% if theme.editor %}
+      <div class="debug-info">
+        Debug: {{ section.settings.products | size }} products selected. Collection: {{ section.settings.collection.title | default: 'None' }}.
+      </div>
+    {% endif %}
+  {% endif %}
+
   <!-- Main Swiper -->
   <div class="swiper-container swiper-main" data-swiper-parallax="true">
     <div class="swiper-wrapper">
@@ -164,11 +180,12 @@
           </div>
         {% endif %}
       {% else %}
+        {% comment %} Handle products {% endcomment %}
         {% assign products = section.settings.products %}
-        {% if section.settings.collection %}
+        {% if products.size == 0 and section.settings.collection %}
           {% assign products = section.settings.collection.products | slice: 0, 12 %}
         {% endif %}
-        {% if products.size > 0 %}
+        {% if products and products.size > 0 %}
           {% for product in products %}
             <div class="swiper-slide" style="background-image: url('{{ product.featured_image | img_url: 'master' | default: 'https://via.placeholder.com/1920x600' }}');" data-swiper-parallax="-200">
               <div class="swiper-slide-overlay"></div>
@@ -216,10 +233,10 @@
           {% endif %}
         {% else %}
           {% assign products = section.settings.products %}
-          {% if section.settings.collection %}
+          {% if products.size == 0 and section.settings.collection %}
             {% assign products = section.settings.collection.products | slice: 0, 12 %}
           {% endif %}
-          {% if products.size > 0 %}
+          {% if products and products.size > 0 %}
             {% for product in products %}
               <div class="swiper-slide">
                 <img src="{{ product.featured_image | img_url: 'small' | default: 'https://via.placeholder.com/100' }}" alt="{{ product.title | escape }}">
