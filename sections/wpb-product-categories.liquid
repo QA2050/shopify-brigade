@@ -1,7 +1,7 @@
 {% comment %}
   WPB Product Categories Section for Shopify
   Requires Swiper.js library for slider layout (loaded via CDN)
-  Supports manual or dynamic collection selection
+  Supports dynamic collections from products, manual collection selection, or manual categories
   Offers grid or slider layout with dynamic/manual image options
   Includes responsive design, customizable styles, and debug output
 {% endcomment %}
@@ -132,18 +132,26 @@
 {%- endstyle %}
 
 <div class="categories-section" id="categories-section-{{ section.id }}">
-  {% if section.settings.content_type == 'collections' %}
+  {% if section.settings.content_type == 'dynamic' or section.settings.content_type == 'selected' %}
     {% comment %} Debug output for collection selection {% endcomment %}
     {% if theme.editor %}
+      {% if section.settings.content_type == 'dynamic' %}
+        {% assign debug_collections = collections | where: 'products_count', '>', 0 | where: 'published_at', '!=', null %}
+        {% if section.settings.collection_limit > 0 %}
+          {% assign debug_collections = debug_collections | slice: 0, section.settings.collection_limit %}
+        {% endif %}
+      {% else %}
+        {% assign debug_collections = section.settings.collections %}
+      {% endif %}
       <div class="debug-info">
-        Debug: {{ section.settings.collections | size }} collections selected.
-        {% if section.settings.collections %}
-          <br>Selected collections: 
-          {% for collection in section.settings.collections %}
+        Debug: {{ debug_collections | size }} collections detected.
+        {% if debug_collections %}
+          <br>Collections: 
+          {% for collection in debug_collections %}
             {{ collection.title | escape }}{% unless forloop.last %}, {% endunless %}
           {% endfor %}
         {% else %}
-          <br>No collections detected.
+          <br>No collections detected. Ensure collections have products and are published.
         {% endif %}
       </div>
     {% endif %}
@@ -157,14 +165,14 @@
           {% if section.blocks.size > 0 %}
             {% for block in section.blocks %}
               <div class="swiper-slide">
-                <div class="category-card" style="background-image: url('{{ block.settings.image | img_url: 'master' | default: 'https://via.placeholder.com/600x400' }}');" data-swiper-parallax="-200">
+                <div class="category-card" style="background-image: url('{{ block.settings.image | img_url: 'master' | default: block.settings.collection.image | img_url: 'master' | default: 'https://via.placeholder.com/600x400' }}');" data-swiper-parallax="-200">
                   <div class="category-card-overlay"></div>
                   <div class="category-card-content">
                     {% if block.settings.title != blank %}
                       <h2 data-swiper-parallax="-100">{{ block.settings.title | escape }}</h2>
                     {% endif %}
-                    {% if block.settings.link != blank %}
-                      <a href="{{ block.settings.link }}" data-swiper-parallax="-200">Shop Now</a>
+                    {% if block.settings.link != blank or block.settings.collection %}
+                      <a href="{{ block.settings.link | default: block.settings.collection.url }}" data-swiper-parallax="-200">Shop Now</a>
                     {% endif %}
                   </div>
                 </div>
@@ -176,7 +184,14 @@
             </div>
           {% endif %}
         {% else %}
-          {% assign collections = section.settings.collections %}
+          {% if section.settings.content_type == 'dynamic' %}
+            {% assign collections = collections | where: 'products_count', '>', 0 | where: 'published_at', '!=', null %}
+            {% if section.settings.collection_limit > 0 %}
+              {% assign collections = collections | slice: 0, section.settings.collection_limit %}
+            {% endif %}
+          {% else %}
+            {% assign collections = section.settings.collections %}
+          {% endif %}
           {% if collections %}
             {% for collection in collections %}
               <div class="swiper-slide">
@@ -191,7 +206,7 @@
             {% endfor %}
           {% else %}
             <div class="swiper-slide">
-              <div class="no-content">Select collections in the theme editor to display content.</div>
+              <div class="no-content">No collections available. Add collections with products in Shopify admin.</div>
             </div>
           {% endif %}
         {% endif %}
@@ -210,14 +225,14 @@
       {% if section.settings.content_type == 'manual' %}
         {% if section.blocks.size > 0 %}
           {% for block in section.blocks %}
-            <div class="category-card" style="background-image: url('{{ block.settings.image | img_url: 'master' | default: 'https://via.placeholder.com/600x400' }}');">
+            <div class="category-card" style="background-image: url('{{ block.settings.image | img_url: 'master' | default: block.settings.collection.image | img_url: 'master' | default: 'https://via.placeholder.com/600x400' }}');">
               <div class="category-card-overlay"></div>
               <div class="category-card-content">
                 {% if block.settings.title != blank %}
                   <h2>{{ block.settings.title | escape }}</h2>
                 {% endif %}
-                {% if block.settings.link != blank %}
-                  <a href="{{ block.settings.link }}">Shop Now</a>
+                {% if block.settings.link != blank or block.settings.collection %}
+                  <a href="{{ block.settings.link | default: block.settings.collection.url }}">Shop Now</a>
                 {% endif %}
               </div>
             </div>
@@ -226,7 +241,14 @@
           <div class="no-content">Add category blocks in the theme editor to display content.</div>
         {% endif %}
       {% else %}
-        {% assign collections = section.settings.collections %}
+        {% if section.settings.content_type == 'dynamic' %}
+          {% assign collections = collections | where: 'products_count', '>', 0 | where: 'published_at', '!=', null %}
+          {% if section.settings.collection_limit > 0 %}
+            {% assign collections = collections | slice: 0, section.settings.collection_limit %}
+          {% endif %}
+        {% else %}
+          {% assign collections = section.settings.collections %}
+        {% endif %}
         {% if collections %}
           {% for collection in collections %}
             <div class="category-card" style="background-image: url('{{ collection.image | img_url: 'master' | default: 'https://via.placeholder.com/600x400' }}');">
@@ -238,7 +260,7 @@
             </div>
           {% endfor %}
         {% else %}
-          <div class="no-content">Select collections in the theme editor to display content.</div>
+          <div class="no-content">No collections available. Add collections with products in Shopify admin.</div>
         {% endif %}
       {% endif %}
     </div>
@@ -322,11 +344,15 @@
           "label": "Manual categories"
         },
         {
-          "value": "collections",
-          "label": "Collections"
+          "value": "selected",
+          "label": "Selected collections"
+        },
+        {
+          "value": "dynamic",
+          "label": "Dynamic collections"
         }
       ],
-      "default": "collections"
+      "default": "dynamic"
     },
     {
       "type": "select",
@@ -349,7 +375,17 @@
       "id": "collections",
       "label": "Collections",
       "limit": 12,
-      "info": "Select collections to display. Ensure collections are published and have images."
+      "info": "Select collections for 'Selected collections' content type. Ignored for 'Dynamic collections'."
+    },
+    {
+      "type": "range",
+      "id": "collection_limit",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "label": "Collection limit (Dynamic collections)",
+      "default": 12,
+      "info": "Limit the number of dynamic collections displayed. Set to 0 for no limit (may impact performance)."
     },
     {
       "type": "checkbox",
