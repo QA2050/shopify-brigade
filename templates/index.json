@@ -137,11 +137,25 @@
           "settings": {
             "section_picker": ""
           }
+        },
+        "column_GqwFw8": {
+          "type": "column",
+          "settings": {
+            "section_picker": ""
+          }
+        },
+        "column_FiqhHJ": {
+          "type": "column",
+          "settings": {
+            "section_picker": ""
+          }
         }
       },
       "block_order": [
         "column_KWQWNi",
-        "column_rJVpeb"
+        "column_rJVpeb",
+        "column_GqwFw8",
+        "column_FiqhHJ"
       ],
       "name": "Custom Container",
       "settings": {
@@ -150,10 +164,24 @@
     },
     "wpb_product_slider_fLRzAa": {
       "type": "wpb-product-slider",
+      "blocks": {
+        "slide_AM6rNT": {
+          "type": "slide",
+          "settings": {
+            "title": "Welcome to Our Store",
+            "subtitle": "Discover our latest collection",
+            "button_text": "Shop Now",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_AM6rNT"
+      ],
       "name": "WPB Swiper Slider",
       "settings": {
         "content_type": "products",
-        "collection": "frontpage",
+        "collection": "featured",
         "products": [
           "example-shirt",
           "example-t-shirt-2",
