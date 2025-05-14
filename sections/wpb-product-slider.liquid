@@ -4,7 +4,7 @@
   Supports manual slides or products as slides
   Includes breakpoints, centeredSlides, scrollbar, parallax, and optional thumbs
   Initializes Swiper on section load
-  Improved product list handling and debug output
+  Enhanced product list handling with detailed debug output
 {% endcomment %}
 
 {%- style %}
@@ -148,7 +148,16 @@
     {% comment %} Debug output for product selection {% endcomment %}
     {% if theme.editor %}
       <div class="debug-info">
-        Debug: {{ section.settings.products | size }} products selected. Collection: {{ section.settings.collection.title | default: 'None' }}.
+        Debug: {{ section.settings.products | size }} products selected.
+        {% if section.settings.products %}
+          <br>Selected products: 
+          {% for product in section.settings.products %}
+            {{ product.title | escape }}{% unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        {% else %}
+          <br>No products detected.
+        {% endif %}
+        <br>Collection: {{ section.settings.collection.title | default: 'None' }}.
       </div>
     {% endif %}
   {% endif %}
@@ -185,7 +194,7 @@
         {% if products.size == 0 and section.settings.collection %}
           {% assign products = section.settings.collection.products | slice: 0, 12 %}
         {% endif %}
-        {% if products and products.size > 0 %}
+        {% if products %}
           {% for product in products %}
             <div class="swiper-slide" style="background-image: url('{{ product.featured_image | img_url: 'master' | default: 'https://via.placeholder.com/1920x600' }}');" data-swiper-parallax="-200">
               <div class="swiper-slide-overlay"></div>
@@ -236,7 +245,7 @@
           {% if products.size == 0 and section.settings.collection %}
             {% assign products = section.settings.collection.products | slice: 0, 12 %}
           {% endif %}
-          {% if products and products.size > 0 %}
+          {% if products %}
             {% for product in products %}
               <div class="swiper-slide">
                 <img src="{{ product.featured_image | img_url: 'small' | default: 'https://via.placeholder.com/100' }}" alt="{{ product.title | escape }}">
@@ -371,7 +380,7 @@
       "id": "products",
       "label": "Products",
       "limit": 12,
-      "info": "Select specific products to display as slides."
+      "info": "Select specific products to display as slides. Ensure products are published and have featured images."
     },
     {
       "type": "checkbox",
