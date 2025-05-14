@@ -161,57 +161,12 @@
       "settings": {
         "section_title": "Custom Container"
       }
-    },
-    "wpb_product_slider_fLRzAa": {
-      "type": "wpb-product-slider",
-      "blocks": {
-        "slide_AM6rNT": {
-          "type": "slide",
-          "settings": {
-            "title": "Welcome to Our Store",
-            "subtitle": "Discover our latest collection",
-            "button_text": "Shop Now",
-            "button_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "slide_AM6rNT"
-      ],
-      "name": "WPB Swiper Slider",
-      "settings": {
-        "content_type": "products",
-        "collection": "featured",
-        "products": [
-          "example-shirt",
-          "example-t-shirt-2",
-          "example-t-shirt-3",
-          "example-t-shirt-4",
-          "example-t-shirt-5"
-        ],
-        "loop": true,
-        "autoplay": false,
-        "centered_slides": true,
-        "enable_thumbs": false,
-        "slides_per_view": 3,
-        "thumbs_per_view": 4,
-        "title_font_size": 36,
-        "subtitle_font_size": 18,
-        "title_color": "#ffffff",
-        "subtitle_color": "#ffffff",
-        "button_bg_color": "#000000",
-        "button_text_color": "#ffffff",
-        "pagination_color": "#ffffff",
-        "nav_color": "#ffffff",
-        "scrollbar_color": "#ffffff"
-      }
     }
   },
   "order": [
     "image_banner",
     "featured_collection",
     "wpb_image_banner_Kaj6m8",
-    "custom_container_CThEaX",
-    "wpb_product_slider_fLRzAa"
+    "custom_container_CThEaX"
   ]
 }
