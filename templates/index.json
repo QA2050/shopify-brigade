@@ -123,25 +123,119 @@
         "show_text_below": true
       }
     },
-    "custom_container_3w3eWY": {
+    "custom_container_CThEaX": {
       "type": "custom-container",
       "blocks": {
-        "column_iqi3yF": {
+        "column_KWQWNi": {
           "type": "column",
           "settings": {}
         },
-        "column_UhmjTg": {
+        "column_rJVpeb": {
           "type": "column",
           "settings": {}
         }
       },
       "block_order": [
-        "column_iqi3yF",
-        "column_UhmjTg"
+        "column_KWQWNi",
+        "column_rJVpeb"
       ],
       "name": "Custom Container",
       "settings": {
         "section_title": "Custom Container"
+      }
+    },
+    "wpb_swiper_slider_y3WybY": {
+      "type": "wpb-swiper-slider",
+      "blocks": {
+        "slide_ceTNiN": {
+          "type": "slide",
+          "settings": {
+            "title": "Welcome to Our Store",
+            "subtitle": "Discover our latest collection",
+            "button_text": "Shop Now",
+            "button_link": ""
+          }
+        },
+        "slide_QBgMhL": {
+          "type": "slide",
+          "settings": {
+            "title": "Welcome to Our Store",
+            "subtitle": "Discover our latest collection",
+            "button_text": "Shop Now",
+            "button_link": ""
+          }
+        },
+        "slide_iADbJj": {
+          "type": "slide",
+          "settings": {
+            "title": "Welcome to Our Store",
+            "subtitle": "Discover our latest collection",
+            "button_text": "Shop Now",
+            "button_link": ""
+          }
+        },
+        "slide_6iQmHC": {
+          "type": "slide",
+          "settings": {
+            "title": "Welcome to Our Store",
+            "subtitle": "Discover our latest collection",
+            "button_text": "Shop Now",
+            "button_link": ""
+          }
+        },
+        "slide_TTaxFJ": {
+          "type": "slide",
+          "settings": {
+            "title": "Welcome to Our Store",
+            "subtitle": "Discover our latest collection",
+            "button_text": "Shop Now",
+            "button_link": ""
+          }
+        },
+        "slide_VrCCmc": {
+          "type": "slide",
+          "settings": {
+            "title": "Welcome to Our Store",
+            "subtitle": "Discover our latest collection",
+            "button_text": "Shop Now",
+            "button_link": ""
+          }
+        },
+        "slide_gY3rAr": {
+          "type": "slide",
+          "settings": {
+            "title": "Welcome to Our Store",
+            "subtitle": "Discover our latest collection",
+            "button_text": "Shop Now",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_ceTNiN",
+        "slide_QBgMhL",
+        "slide_iADbJj",
+        "slide_6iQmHC",
+        "slide_TTaxFJ",
+        "slide_VrCCmc",
+        "slide_gY3rAr"
+      ],
+      "name": "WPB Swiper Slider",
+      "settings": {
+        "loop": true,
+        "autoplay": true,
+        "centered_slides": true,
+        "slides_per_view": 3,
+        "thumbs_per_view": 4,
+        "title_font_size": 36,
+        "subtitle_font_size": 18,
+        "title_color": "#121212",
+        "subtitle_color": "#334fb4",
+        "button_bg_color": "#000000",
+        "button_text_color": "#f21b1b",
+        "pagination_color": "#f21b1b",
+        "nav_color": "#334fb4",
+        "scrollbar_color": "#000000"
       }
     }
   },
@@ -149,6 +243,7 @@
     "image_banner",
     "featured_collection",
     "wpb_image_banner_Kaj6m8",
-    "custom_container_3w3eWY"
+    "custom_container_CThEaX",
+    "wpb_swiper_slider_y3WybY"
   ]
 }
