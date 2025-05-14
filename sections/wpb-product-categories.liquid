@@ -1,0 +1,465 @@
+{% comment %}
+  WPB Product Categories Section for Shopify
+  Requires Swiper.js library for slider layout (loaded via CDN)
+  Supports manual or dynamic collection selection
+  Offers grid or slider layout with dynamic/manual image options
+  Includes responsive design, customizable styles, and debug output
+{% endcomment %}
+
+{%- style %}
+  .categories-section {
+    position: relative;
+    width: 100%;
+    padding: 20px 0;
+    margin: 0 auto;
+  }
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 0 20px;
+  }
+  .categories-slider {
+    width: 100%;
+    height: 400px;
+  }
+  .category-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .category-card:hover {
+    transform: scale(1.05);
+  }
+  .category-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+  .category-card-content {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+  }
+  .category-card h2 {
+    font-size: {{ section.settings.title_font_size }}px;
+    margin-bottom: 10px;
+    color: {{ section.settings.title_color }};
+    transition: transform 0.5s;
+  }
+  .category-card a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: {{ section.settings.button_bg_color }};
+    color: {{ section.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: transform 0.5s;
+  }
+  .swiper-slide .category-card {
+    height: 100%;
+    opacity: 0.4;
+    transition: opacity 0.3s;
+  }
+  .swiper-slide-active .category-card {
+    opacity: 1;
+  }
+  .swiper-pagination-bullet {
+    background: {{ section.settings.pagination_color }};
+  }
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: {{ section.settings.nav_color }};
+  }
+  .swiper-scrollbar {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .swiper-scrollbar-drag {
+    background: {{ section.settings.scrollbar_color }};
+  }
+  .no-content {
+    text-align: center;
+    padding: 20px;
+    color: #fff;
+    background: #333;
+  }
+  .debug-info {
+    text-align: center;
+    padding: 10px;
+    background: #f8d7da;
+    color: #721c24;
+    margin-bottom: 10px;
+  }
+  @media (max-width: 768px) {
+    .categories-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+    .categories-slider {
+      height: 300px;
+    }
+    .category-card h2 {
+      font-size: {{ section.settings.title_font_size | times: 0.7 }}px;
+    }
+    .category-card a {
+      font-size: 14px;
+      padding: 8px 16px;
+    }
+  }
+  @media (max-width: 480px) {
+    .categories-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .categories-slider {
+      height: 250px;
+    }
+  }
+{%- endstyle %}
+
+<div class="categories-section" id="categories-section-{{ section.id }}">
+  {% if section.settings.content_type == 'collections' %}
+    {% comment %} Debug output for collection selection {% endcomment %}
+    {% if theme.editor %}
+      <div class="debug-info">
+        Debug: {{ section.settings.collections | size }} collections selected.
+        {% if section.settings.collections %}
+          <br>Selected collections: 
+          {% for collection in section.settings.collections %}
+            {{ collection.title | escape }}{% unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        {% else %}
+          <br>No collections detected.
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endif %}
+
+  {% if section.settings.layout == 'slider' %}
+    <!-- Slider Layout -->
+    <div class="categories-slider swiper-container" data-swiper-parallax="true">
+      <div class="swiper-wrapper">
+        {% if section.settings.content_type == 'manual' %}
+          {% if section.blocks.size > 0 %}
+            {% for block in section.blocks %}
+              <div class="swiper-slide">
+                <div class="category-card" style="background-image: url('{{ block.settings.image | img_url: 'master' | default: 'https://via.placeholder.com/600x400' }}');" data-swiper-parallax="-200">
+                  <div class="category-card-overlay"></div>
+                  <div class="category-card-content">
+                    {% if block.settings.title != blank %}
+                      <h2 data-swiper-parallax="-100">{{ block.settings.title | escape }}</h2>
+                    {% endif %}
+                    {% if block.settings.link != blank %}
+                      <a href="{{ block.settings.link }}" data-swiper-parallax="-200">Shop Now</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="swiper-slide">
+              <div class="no-content">Add category blocks in the theme editor to display content.</div>
+            </div>
+          {% endif %}
+        {% else %}
+          {% assign collections = section.settings.collections %}
+          {% if collections %}
+            {% for collection in collections %}
+              <div class="swiper-slide">
+                <div class="category-card" style="background-image: url('{{ collection.image | img_url: 'master' | default: 'https://via.placeholder.com/600x400' }}');" data-swiper-parallax="-200">
+                  <div class="category-card-overlay"></div>
+                  <div class="category-card-content">
+                    <h2 data-swiper-parallax="-100">{{ collection.title | escape }}</h2>
+                    <a href="{{ collection.url }}" data-swiper-parallax="-200">Shop Now</a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="swiper-slide">
+              <div class="no-content">Select collections in the theme editor to display content.</div>
+            </div>
+          {% endif %}
+        {% endif %}
+      </div>
+      <!-- Pagination -->
+      <div class="swiper-pagination"></div>
+      <!-- Navigation arrows -->
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+      <!-- Scrollbar -->
+      <div class="swiper-scrollbar"></div>
+    </div>
+  {% else %}
+    <!-- Grid Layout -->
+    <div class="categories-grid">
+      {% if section.settings.content_type == 'manual' %}
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            <div class="category-card" style="background-image: url('{{ block.settings.image | img_url: 'master' | default: 'https://via.placeholder.com/600x400' }}');">
+              <div class="category-card-overlay"></div>
+              <div class="category-card-content">
+                {% if block.settings.title != blank %}
+                  <h2>{{ block.settings.title | escape }}</h2>
+                {% endif %}
+                {% if block.settings.link != blank %}
+                  <a href="{{ block.settings.link }}">Shop Now</a>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="no-content">Add category blocks in the theme editor to display content.</div>
+        {% endif %}
+      {% else %}
+        {% assign collections = section.settings.collections %}
+        {% if collections %}
+          {% for collection in collections %}
+            <div class="category-card" style="background-image: url('{{ collection.image | img_url: 'master' | default: 'https://via.placeholder.com/600x400' }}');">
+              <div class="category-card-overlay"></div>
+              <div class="category-card-content">
+                <h2>{{ collection.title | escape }}</h2>
+                <a href="{{ collection.url }}">Shop Now</a>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="no-content">Select collections in the theme editor to display content.</div>
+        {% endif %}
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+<!-- Swiper.js CDN (for slider layout) -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<!-- Initialize Swiper (for slider layout) -->
+<script>
+  function initializeCategorySwiper(sectionId) {
+    try {
+      const section = document.getElementById('categories-section-' + sectionId);
+      if (!section) {
+        console.error('Categories section not found for ID: ' + sectionId);
+        return;
+      }
+
+      const slider = section.querySelector('.categories-slider');
+      if (slider) {
+        var swiper = new Swiper(slider, {
+          loop: {{ section.settings.loop }},
+          centeredSlides: {{ section.settings.centered_slides }},
+          autoplay: {{ section.settings.autoplay | json }},
+          parallax: true,
+          spaceBetween: 10,
+          slidesPerView: 1,
+          breakpoints: {
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 20
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 30
+            }
+          },
+          pagination: {
+            el: section.querySelector('.swiper-pagination'),
+            clickable: true,
+          },
+          navigation: {
+            nextEl: section.querySelector('.swiper-button-next'),
+            prevEl: section.querySelector('.swiper-button-prev'),
+          },
+          scrollbar: {
+            el: section.querySelector('.swiper-scrollbar'),
+            draggable: true,
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error initializing Swiper for section ' + sectionId + ':', error);
+    }
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', function () {
+    initializeCategorySwiper('{{ section.id }}');
+  });
+
+  // Initialize on section load (Shopify theme editor)
+  document.addEventListener('shopify:section:load', function (event) {
+    initializeCategorySwiper('{{ section.id }}');
+  });
+</script>
+
+{% schema %}
+{
+  "name": "WPB Product Categories",
+  "settings": [
+    {
+      "type": "select",
+      "id": "content_type",
+      "label": "Content type",
+      "options": [
+        {
+          "value": "manual",
+          "label": "Manual categories"
+        },
+        {
+          "value": "collections",
+          "label": "Collections"
+        }
+      ],
+      "default": "collections"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "slider",
+          "label": "Slider"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "collection_list",
+      "id": "collections",
+      "label": "Collections",
+      "limit": 12,
+      "info": "Select collections to display. Ensure collections are published and have images."
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Enable loop (Slider only)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Enable autoplay (Slider only)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "centered_slides",
+      "label": "Center slides (Slider only)",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Title font size",
+      "default": 28
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "pagination_color",
+      "label": "Pagination color (Slider only)",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "nav_color",
+      "label": "Navigation arrow color (Slider only)",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "scrollbar_color",
+      "label": "Scrollbar color (Slider only)",
+      "default": "#FFFFFF"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category title",
+          "default": "Category Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category image",
+          "info": "Overrides collection image if provided."
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "Select a collection for dynamic image and link (optional)."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "Custom link for the category (overrides collection URL)."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "WPB Product Categories",
+      "blocks": [
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
