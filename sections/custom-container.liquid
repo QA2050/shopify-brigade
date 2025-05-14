@@ -1,6 +1,161 @@
-{% schema %}
-  {
-    "name": "Section name",
-    "settings": []
+{% comment %}
+  Custom Container Section
+  Description: A flexible container section with dynamic columns, each containing customizable elements (title, image, text, button).
+  Usage: Add to Shopify theme's 'sections' directory. Use in theme editor to add columns and configure content.
+{% endcomment %}
+
+{% style %}
+  .custom-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
   }
+
+  .column {
+    padding: 20px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    background: #fff;
+    text-align: center;
+  }
+
+  .column-title {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+
+  .column-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 4px;
+  }
+
+  .column-content {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 15px;
+  }
+
+  .column-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #0066cc;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.3s;
+  }
+
+  .column-button:hover {
+    background: #004d99;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .custom-container {
+      grid-template-columns: 1fr;
+      padding: 10px;
+    }
+
+    .column {
+      padding: 15px;
+    }
+  }
+{% endstyle %}
+
+<div class="custom-container">
+  {% for block in section.blocks %}
+    <div class="column" {{ block.shopify_attributes }}>
+      {% if block.settings.column_title != blank %}
+        <h3 class="column-title">{{ block.settings.column_title | escape }}</h3>
+      {% endif %}
+
+      {% if block.settings.column_image %}
+        <img class="column-image" src="{{ block.settings.column_image | img_url: 'medium' }}" alt="{{ block.settings.column_title | escape }}">
+      {% endif %}
+
+      {% if block.settings.column_content != blank %}
+        <div class="column-content">{{ block.settings.column_content }}</div>
+      {% endif %}
+
+      {% if block.settings.button_text != blank and block.settings.button_link != blank %}
+        <a href="{{ block.settings.button_link }}" class="column-button">{{ block.settings.button_text | escape }}</a>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>
+
+{% if section.blocks.size == 0 %}
+  <div class="custom-container">
+    <div class="column">
+      <p style="text-align: center;">Add columns in the theme editor to customize this section.</p>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Custom Container",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Custom Container"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "column_title",
+          "label": "Column Title",
+          "default": "Column Title"
+        },
+        {
+          "type": "image_picker",
+          "id": "column_image",
+          "label": "Column Image"
+        },
+        {
+          "type": "textarea",
+          "id": "column_content",
+          "label": "Column Content",
+          "default": "Add your content here."
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Learn More"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Container",
+      "blocks": [
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        }
+      ]
+    }
+  ]
+}
 {% endschema %}
