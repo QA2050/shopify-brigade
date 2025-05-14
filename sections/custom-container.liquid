@@ -1,7 +1,7 @@
 {% comment %}
-  Custom Container Section
-  Description: A flexible container section with dynamic columns, each containing customizable elements (title, image, text, button).
-  Usage: Add to Shopify theme's 'sections' directory. Use in theme editor to add columns and configure content.
+  Custom Container Section with Dynamic Sections
+  Description: A container section with dynamic columns, each able to include any Shopify section selected from a dropdown.
+  Usage: Add to Shopify theme's 'sections' directory. Use in theme editor to add columns and select sections.
 {% endcomment %}
 
 {% style %}
@@ -19,39 +19,12 @@
     border: 1px solid #e5e5e5;
     border-radius: 8px;
     background: #fff;
-    text-align: center;
   }
 
-  .column-title {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-  }
-
-  .column-image {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 15px;
-    border-radius: 4px;
-  }
-
-  .column-content {
-    font-size: 1rem;
-    color: #333;
-    margin-bottom: 15px;
-  }
-
-  .column-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #0066cc;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background 0.3s;
-  }
-
-  .column-button:hover {
-    background: #004d99;
+  /* Ensure nested sections inherit proper styling */
+  .column :where(.section) {
+    margin: 0;
+    padding: 0;
   }
 
   /* Responsive adjustments */
@@ -70,20 +43,22 @@
 <div class="custom-container">
   {% for block in section.blocks %}
     <div class="column" {{ block.shopify_attributes }}>
-      {% if block.settings.column_title != blank %}
-        <h3 class="column-title">{{ block.settings.column_title | escape }}</h3>
-      {% endif %}
-
-      {% if block.settings.column_image %}
-        <img class="column-image" src="{{ block.settings.column_image | img_url: 'medium' }}" alt="{{ block.settings.column_title | escape }}">
-      {% endif %}
-
-      {% if block.settings.column_content != blank %}
-        <div class="column-content">{{ block.settings.column_content }}</div>
-      {% endif %}
-
-      {% if block.settings.button_text != blank and block.settings.button_link != blank %}
-        <a href="{{ block.settings.button_link }}" class="column-button">{{ block.settings.button_text | escape }}</a>
+      {% if block.settings.section_picker != blank %}
+        {% comment %} Render the selected section using a case statement {% endcomment %}
+        {% case block.settings.section_picker %}
+          {% when 'image-banner' %}
+            {% section 'image-banner' %}
+          {% when 'rich-text' %}
+            {% section 'rich-text' %}
+          {% when 'featured-collection' %}
+            {% section 'featured-collection' %}
+          {% when 'multicolumn' %}
+            {% section 'multicolumn' %}
+          {% else %}
+            <p style="text-align: center;">Selected section is not supported.</p>
+        {% endcase %}
+      {% else %}
+        <p style="text-align: center;">Select a section for this column in the theme editor.</p>
       {% endif %}
     </div>
   {% endfor %}
@@ -92,7 +67,7 @@
 {% if section.blocks.size == 0 %}
   <div class="custom-container">
     <div class="column">
-      <p style="text-align: center;">Add columns in the theme editor to customize this section.</p>
+      <p style="text-align: center;">Add columns and select sections in the theme editor to customize this section.</p>
     </div>
   </div>
 {% endif %}
@@ -114,32 +89,33 @@
       "name": "Column",
       "settings": [
         {
-          "type": "text",
-          "id": "column_title",
-          "label": "Column Title",
-          "default": "Column Title"
-        },
-        {
-          "type": "image_picker",
-          "id": "column_image",
-          "label": "Column Image"
-        },
-        {
-          "type": "textarea",
-          "id": "column_content",
-          "label": "Column Content",
-          "default": "Add your content here."
-        },
-        {
-          "type": "text",
-          "id": "button_text",
-          "label": "Button Text",
-          "default": "Learn More"
-        },
-        {
-          "type": "url",
-          "id": "button_link",
-          "label": "Button Link"
+          "type": "select",
+          "id": "section_picker",
+          "label": "Select Section",
+          "options": [
+            {
+              "value": "",
+              "label": "None"
+            },
+            {
+              "value": "image-banner",
+              "label": "Image Banner"
+            },
+            {
+              "value": "rich-text",
+              "label": "Rich Text"
+            },
+            {
+              "value": "featured-collection",
+              "label": "Featured Collection"
+            },
+            {
+              "value": "multicolumn",
+              "label": "Multicolumn"
+            }
+          ],
+          "default": "",
+          "info": "Choose a section to display in this column. To add more sections, edit the section file to include additional options and update the case statement in the Liquid code."
         }
       ]
     }

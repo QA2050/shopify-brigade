@@ -123,156 +123,25 @@
         "show_text_below": true
       }
     },
-    "video_JWgDgE": {
-      "type": "video",
-      "name": "t:sections.video.presets.name",
-      "settings": {
-        "heading": "Video",
-        "heading_size": "h2",
-        "enable_video_looping": false,
-        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
-        "description": "",
-        "full_width": false,
-        "color_scheme": "",
-        "padding_top": 76,
-        "padding_bottom": 36
-      }
-    },
-    "custom_swiper_slider_JAJYHf": {
-      "type": "custom-swiper-slider",
+    "custom_container_3w3eWY": {
+      "type": "custom-container",
       "blocks": {
-        "slide_y446t4": {
-          "type": "slide",
-          "settings": {
-            "title": "Welcome to Our Store",
-            "subtitle": "Discover our latest collection",
-            "button_text": "Shop Now",
-            "button_link": ""
-          }
+        "column_iqi3yF": {
+          "type": "column",
+          "settings": {}
         },
-        "slide_Hgnczf": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/flatlay-iron-skillet-with-meat-and-other-food.jpg",
-            "title": "Welcome to Our Store",
-            "subtitle": "Discover our latest collection",
-            "button_text": "Shop Now",
-            "button_link": ""
-          }
-        },
-        "slide_CfnMy4": {
-          "type": "slide",
-          "settings": {
-            "title": "Welcome to Our Store",
-            "subtitle": "Discover our latest collection",
-            "button_text": "Shop Now",
-            "button_link": ""
-          }
-        },
-        "slide_43mYeE": {
-          "type": "slide",
-          "settings": {
-            "title": "Welcome to Our Store",
-            "subtitle": "Discover our latest collection",
-            "button_text": "Shop Now",
-            "button_link": ""
-          }
+        "column_UhmjTg": {
+          "type": "column",
+          "settings": {}
         }
       },
       "block_order": [
-        "slide_y446t4",
-        "slide_Hgnczf",
-        "slide_CfnMy4",
-        "slide_43mYeE"
+        "column_iqi3yF",
+        "column_UhmjTg"
       ],
-      "name": "Custom Swiper Slider",
+      "name": "Custom Container",
       "settings": {
-        "loop": true,
-        "autoplay": true,
-        "title_font_size": 36,
-        "subtitle_font_size": 18,
-        "title_color": "#ffffff",
-        "subtitle_color": "#ffffff",
-        "button_bg_color": "#000000",
-        "button_text_color": "#ffffff",
-        "pagination_color": "#ffffff",
-        "nav_color": "#ffffff"
-      }
-    },
-    "wpb_swiper_slider_8bnNbV": {
-      "type": "wpb-swiper-slider",
-      "blocks": {
-        "slide_eVxXhJ": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/flatlay-iron-skillet-with-meat-and-other-food.jpg",
-            "title": "Welcome to Our Store",
-            "subtitle": "Discover our latest collection",
-            "button_text": "Shop Now",
-            "button_link": ""
-          }
-        },
-        "slide_iBbpJY": {
-          "type": "slide",
-          "settings": {
-            "image": "{{ shop.brand.cover_image }}",
-            "title": "Welcome to Our Store",
-            "subtitle": "Discover our latest collection",
-            "button_text": "Shop Now",
-            "button_link": ""
-          }
-        },
-        "slide_6gPJQ9": {
-          "type": "slide",
-          "settings": {
-            "title": "Welcome to Our Store",
-            "subtitle": "Discover our latest collection",
-            "button_text": "Shop Now",
-            "button_link": ""
-          }
-        },
-        "slide_4PqGKK": {
-          "type": "slide",
-          "settings": {
-            "title": "Welcome to Our Store",
-            "subtitle": "Discover our latest collection",
-            "button_text": "Shop Now",
-            "button_link": ""
-          }
-        },
-        "slide_aV8Ccc": {
-          "type": "slide",
-          "settings": {
-            "title": "Welcome to Our Store",
-            "subtitle": "Discover our latest collection",
-            "button_text": "Shop Now",
-            "button_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "slide_eVxXhJ",
-        "slide_iBbpJY",
-        "slide_6gPJQ9",
-        "slide_4PqGKK",
-        "slide_aV8Ccc"
-      ],
-      "name": "WPB Swiper Slider",
-      "settings": {
-        "loop": true,
-        "autoplay": true,
-        "centered_slides": false,
-        "slides_per_view": 1,
-        "thumbs_per_view": 4,
-        "title_font_size": 36,
-        "subtitle_font_size": 18,
-        "title_color": "#121212",
-        "subtitle_color": "#334fb4",
-        "button_bg_color": "#000000",
-        "button_text_color": "#334fb4",
-        "pagination_color": "#334fb4",
-        "nav_color": "#334fb4",
-        "scrollbar_color": "#334fb4"
+        "section_title": "Custom Container"
       }
     }
   },
@@ -280,8 +149,6 @@
     "image_banner",
     "featured_collection",
     "wpb_image_banner_Kaj6m8",
-    "video_JWgDgE",
-    "custom_swiper_slider_JAJYHf",
-    "wpb_swiper_slider_8bnNbV"
+    "custom_container_3w3eWY"
   ]
 }
