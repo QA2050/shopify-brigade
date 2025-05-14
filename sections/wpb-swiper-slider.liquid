@@ -2,6 +2,7 @@
   WPB Swiper Slider Section for Shopify
   Requires Swiper.js library (loaded via CDN)
   Includes breakpoints, centeredSlides, scrollbar, parallax, and thumbs
+  Initializes Swiper on section load
 {% endcomment %}
 
 {%- style %}
@@ -123,7 +124,7 @@
 {%- endstyle %}
 
 {%- if section.blocks.size > 0 %}
-  <div class="swiper-section">
+  <div class="swiper-section" id="swiper-section-{{ section.id }}">
     <!-- Main Swiper -->
     <div class="swiper-container swiper-main" data-swiper-parallax="true">
       <div class="swiper-wrapper">
@@ -171,9 +172,12 @@
 
   <!-- Initialize Swiper -->
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    function initializeSwiper(sectionId) {
+      const section = document.getElementById('swiper-section-' + sectionId);
+      if (!section) return;
+
       // Thumbs Swiper
-      var thumbsSwiper = new Swiper('.swiper-thumbs', {
+      var thumbsSwiper = new Swiper(section.querySelector('.swiper-thumbs'), {
         spaceBetween: 10,
         slidesPerView: {{ section.settings.thumbs_per_view }},
         watchSlidesProgress: true,
@@ -188,7 +192,7 @@
       });
 
       // Main Swiper
-      var mainSwiper = new Swiper('.swiper-main', {
+      var mainSwiper = new Swiper(section.querySelector('.swiper-main'), {
         loop: {{ section.settings.loop }},
         centeredSlides: {{ section.settings.centered_slides }},
         autoplay: {{ section.settings.autoplay | json }},
@@ -209,21 +213,31 @@
           }
         },
         pagination: {
-          el: '.swiper-pagination',
+          el: section.querySelector('.swiper-pagination'),
           clickable: true,
         },
         navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
+          nextEl: section.querySelector('.swiper-button-next'),
+          prevEl: section.querySelector('.swiper-button-prev'),
         },
         scrollbar: {
-          el: '.swiper-scrollbar',
+          el: section.querySelector('.swiper-scrollbar'),
           draggable: true,
         },
         thumbs: {
           swiper: thumbsSwiper
         }
       });
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function () {
+      initializeSwiper('{{ section.id }}');
+    });
+
+    // Initialize on section load (Shopify theme editor)
+    document.addEventListener('shopify:section:load', function (event) {
+      initializeSwiper('{{ section.id }}');
     });
   </script>
 {%- endif %}
