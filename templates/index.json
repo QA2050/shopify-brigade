@@ -138,14 +138,65 @@
         "padding_bottom": 36
       }
     },
-    "custom_liquid_xiDeTJ": {
-      "type": "custom-liquid",
-      "name": "t:sections.custom-liquid.presets.name",
+    "custom_swiper_slider_JAJYHf": {
+      "type": "custom-swiper-slider",
+      "blocks": {
+        "slide_y446t4": {
+          "type": "slide",
+          "settings": {
+            "title": "Welcome to Our Store",
+            "subtitle": "Discover our latest collection",
+            "button_text": "Shop Now",
+            "button_link": ""
+          }
+        },
+        "slide_Hgnczf": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/flatlay-iron-skillet-with-meat-and-other-food.jpg",
+            "title": "Welcome to Our Store",
+            "subtitle": "Discover our latest collection",
+            "button_text": "Shop Now",
+            "button_link": ""
+          }
+        },
+        "slide_CfnMy4": {
+          "type": "slide",
+          "settings": {
+            "title": "Welcome to Our Store",
+            "subtitle": "Discover our latest collection",
+            "button_text": "Shop Now",
+            "button_link": ""
+          }
+        },
+        "slide_43mYeE": {
+          "type": "slide",
+          "settings": {
+            "title": "Welcome to Our Store",
+            "subtitle": "Discover our latest collection",
+            "button_text": "Shop Now",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_y446t4",
+        "slide_Hgnczf",
+        "slide_CfnMy4",
+        "slide_43mYeE"
+      ],
+      "name": "Custom Swiper Slider",
       "settings": {
-        "custom_liquid": "",
-        "color_scheme": "",
-        "padding_top": 40,
-        "padding_bottom": 52
+        "loop": true,
+        "autoplay": true,
+        "title_font_size": 36,
+        "subtitle_font_size": 18,
+        "title_color": "#FFFFFF",
+        "subtitle_color": "#FFFFFF",
+        "button_bg_color": "#000000",
+        "button_text_color": "#FFFFFF",
+        "pagination_color": "#FFFFFF",
+        "nav_color": "#FFFFFF"
       }
     }
   },
@@ -154,6 +205,6 @@
     "featured_collection",
     "wpb_image_banner_Kaj6m8",
     "video_JWgDgE",
-    "custom_liquid_xiDeTJ"
+    "custom_swiper_slider_JAJYHf"
   ]
 }
