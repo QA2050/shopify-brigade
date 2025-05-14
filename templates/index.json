@@ -128,11 +128,15 @@
       "blocks": {
         "column_KWQWNi": {
           "type": "column",
-          "settings": {}
+          "settings": {
+            "section_picker": ""
+          }
         },
         "column_rJVpeb": {
           "type": "column",
-          "settings": {}
+          "settings": {
+            "section_picker": ""
+          }
         }
       },
       "block_order": [
@@ -225,6 +229,7 @@
         "loop": true,
         "autoplay": true,
         "centered_slides": true,
+        "enable_thumbs": false,
         "slides_per_view": 3,
         "thumbs_per_view": 4,
         "title_font_size": 36,
