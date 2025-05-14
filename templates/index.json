@@ -190,7 +190,7 @@
           "example-t-shirt-5"
         ],
         "loop": true,
-        "autoplay": true,
+        "autoplay": false,
         "centered_slides": true,
         "enable_thumbs": false,
         "slides_per_view": 3,
