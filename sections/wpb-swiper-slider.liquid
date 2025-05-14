@@ -1,6 +1,384 @@
-{% schema %}
-  {
-    "name": "Section name",
-    "settings": []
+{% comment %}
+  WPB Swiper Slider Section for Shopify
+  Requires Swiper.js library (loaded via CDN)
+  Includes breakpoints, centeredSlides, scrollbar, parallax, and thumbs
+{% endcomment %}
+
+{%- style %}
+  .swiper-section {
+    position: relative;
+    width: 100%;
+    padding: 0;
+    margin: 0 auto;
   }
+  .swiper-container {
+    width: 100%;
+    height: 600px;
+  }
+  .swiper-slide {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    text-align: center;
+    opacity: 0.4;
+    transition: opacity 0.3s;
+  }
+  .swiper-slide-active {
+    opacity: 1;
+  }
+  .swiper-slide-content {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    padding: 20px;
+  }
+  .swiper-slide-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+  .swiper-slide h2 {
+    font-size: {{ section.settings.title_font_size }}px;
+    margin-bottom: 10px;
+    color: {{ section.settings.title_color }};
+    transition: transform 0.5s;
+  }
+  .swiper-slide p {
+    font-size: {{ section.settings.subtitle_font_size }}px;
+    margin-bottom: 20px;
+    color: {{ section.settings.subtitle_color }};
+    transition: transform 0.5s;
+  }
+  .swiper-slide a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: {{ section.settings.button_bg_color }};
+    color: {{ section.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: transform 0.5s;
+  }
+  .swiper-pagination-bullet {
+    background: {{ section.settings.pagination_color }};
+  }
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: {{ section.settings.nav_color }};
+  }
+  .swiper-scrollbar {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .swiper-scrollbar-drag {
+    background: {{ section.settings.scrollbar_color }};
+  }
+  .swiper-thumbs {
+    width: 100%;
+    height: 100px;
+    margin-top: 10px;
+  }
+  .swiper-thumbs .swiper-slide {
+    height: 100%;
+    opacity: 0.6;
+    cursor: pointer;
+  }
+  .swiper-thumbs .swiper-slide-thumb-active {
+    opacity: 1;
+  }
+  .swiper-thumbs .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  @media (max-width: 768px) {
+    .swiper-container {
+      height: 400px;
+    }
+    .swiper-slide h2 {
+      font-size: {{ section.settings.title_font_size | times: 0.7 }}px;
+    }
+    .swiper-slide p {
+      font-size: {{ section.settings.subtitle_font_size | times: 0.7 }}px;
+    }
+    .swiper-thumbs {
+      height: 60px;
+    }
+  }
+  @media (max-width: 480px) {
+    .swiper-container {
+      height: 300px;
+    }
+    .swiper-thumbs {
+      height: 40px;
+    }
+  }
+{%- endstyle %}
+
+{%- if section.blocks.size > 0 %}
+  <div class="swiper-section">
+    <!-- Main Swiper -->
+    <div class="swiper-container swiper-main" data-swiper-parallax="true">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <div class="swiper-slide" style="background-image: url('{{ block.settings.image | img_url: 'master' }}');" data-swiper-parallax="-200">
+            <div class="swiper-slide-overlay"></div>
+            <div class="swiper-slide-content">
+              {% if block.settings.title != blank %}
+                <h2 data-swiper-parallax="-100">{{ block.settings.title | escape }}</h2>
+              {% endif %}
+              {% if block.settings.subtitle != blank %}
+                <p data-swiper-parallax="-150">{{ block.settings.subtitle | escape }}</p>
+              {% endif %}
+              {% if block.settings.button_text != blank and block.settings.button_link != blank %}
+                <a href="{{ block.settings.button_link }}" data-swiper-parallax="-200">{{ block.settings.button_text | escape }}</a>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <!-- Pagination -->
+      <div class="swiper-pagination"></div>
+      <!-- Navigation arrows -->
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+      <!-- Scrollbar -->
+      <div class="swiper-scrollbar"></div>
+    </div>
+
+    <!-- Thumbs Swiper -->
+    <div class="swiper-container swiper-thumbs">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <div class="swiper-slide">
+            <img src="{{ block.settings.image | img_url: 'small' }}" alt="{{ block.settings.title | escape }}">
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Swiper.js CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Thumbs Swiper
+      var thumbsSwiper = new Swiper('.swiper-thumbs', {
+        spaceBetween: 10,
+        slidesPerView: {{ section.settings.thumbs_per_view }},
+        watchSlidesProgress: true,
+        breakpoints: {
+          480: {
+            slidesPerView: {{ section.settings.thumbs_per_view | times: 0.5 | floor | at_least: 2 }},
+          },
+          768: {
+            slidesPerView: {{ section.settings.thumbs_per_view | times: 0.75 | floor | at_least: 3 }},
+          }
+        }
+      });
+
+      // Main Swiper
+      var mainSwiper = new Swiper('.swiper-main', {
+        loop: {{ section.settings.loop }},
+        centeredSlides: {{ section.settings.centered_slides }},
+        autoplay: {{ section.settings.autoplay | json }},
+        parallax: true,
+        spaceBetween: 10,
+        breakpoints: {
+          480: {
+            slidesPerView: 1,
+            spaceBetween: 10
+          },
+          768: {
+            slidesPerView: {{ section.settings.slides_per_view | times: 0.75 | floor | at_least: 1 }},
+            spaceBetween: 20
+          },
+          1024: {
+            slidesPerView: {{ section.settings.slides_per_view }},
+            spaceBetween: 30
+          }
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        scrollbar: {
+          el: '.swiper-scrollbar',
+          draggable: true,
+        },
+        thumbs: {
+          swiper: thumbsSwiper
+        }
+      });
+    });
+  </script>
+{%- endif %}
+
+{% schema %}
+{
+  "name": "WPB Swiper Slider",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Enable loop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Enable autoplay",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "centered_slides",
+      "label": "Center slides",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "slides_per_view",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Slides per view (desktop)",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "thumbs_per_view",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "label": "Thumbs per view (desktop)",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Title font size",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "subtitle_font_size",
+      "min": 14,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Subtitle font size",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "pagination_color",
+      "label": "Pagination color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "nav_color",
+      "label": "Navigation arrow color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "scrollbar_color",
+      "label": "Scrollbar color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Slide image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Welcome to Our Store"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Discover our latest collection"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "WPB Swiper Slider",
+      "blocks": [
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
 {% endschema %}
