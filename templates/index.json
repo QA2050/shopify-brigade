@@ -155,7 +155,11 @@
         "content_type": "products",
         "collection": "frontpage",
         "products": [
-          "example-shirt"
+          "example-shirt",
+          "example-t-shirt-2",
+          "example-t-shirt-3",
+          "example-t-shirt-4",
+          "example-t-shirt-5"
         ],
         "loop": true,
         "autoplay": true,
