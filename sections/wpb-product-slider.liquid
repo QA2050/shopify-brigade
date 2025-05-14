@@ -1,9 +1,10 @@
 {% comment %}
-  WPB Swiper Slider 2 Section for Shopify
+  WPB Swiper Slider Section for Shopify
   Requires Swiper.js library (loaded via CDN)
   Supports manual slides or products as slides
   Includes breakpoints, centeredSlides, scrollbar, parallax, and optional thumbs
   Initializes Swiper on section load
+  Adds fallback for no products
 {% endcomment %}
 
 {%- style %}
@@ -105,6 +106,12 @@
     height: 100%;
     object-fit: cover;
   }
+  .no-content {
+    text-align: center;
+    padding: 20px;
+    color: #fff;
+    background: #333;
+  }
   @media (max-width: 768px) {
     .swiper-container {
       height: 400px;
@@ -129,14 +136,14 @@
   }
 {%- endstyle %}
 
-{%- if section.settings.content_type == 'manual' and section.blocks.size > 0 or section.settings.content_type == 'products' and section.settings.products.size > 0 or section.settings.content_type == 'products' and section.settings.collection %}
-  <div class="swiper-section" id="swiper-section-{{ section.id }}">
-    <!-- Main Swiper -->
-    <div class="swiper-container swiper-main" data-swiper-parallax="true">
-      <div class="swiper-wrapper">
-        {% if section.settings.content_type == 'manual' %}
+<div class="swiper-section" id="swiper-section-{{ section.id }}">
+  <!-- Main Swiper -->
+  <div class="swiper-container swiper-main" data-swiper-parallax="true">
+    <div class="swiper-wrapper">
+      {% if section.settings.content_type == 'manual' %}
+        {% if section.blocks.size > 0 %}
           {% for block in section.blocks %}
-            <div class="swiper-slide" style="background-image: url('{{ block.settings.image | img_url: 'master' }}');" data-swiper-parallax="-200">
+            <div class="swiper-slide" style="background-image: url('{{ block.settings.image | img_url: 'master' | default: 'https://via.placeholder.com/1920x600' }}');" data-swiper-parallax="-200">
               <div class="swiper-slide-overlay"></div>
               <div class="swiper-slide-content">
                 {% if block.settings.title != blank %}
@@ -152,12 +159,18 @@
             </div>
           {% endfor %}
         {% else %}
-          {% assign products = section.settings.products %}
-          {% if section.settings.collection %}
-            {% assign products = section.settings.collection.products | slice: 0, 12 %}
-          {% endif %}
+          <div class="swiper-slide">
+            <div class="no-content">Add slides in the theme editor to display content.</div>
+          </div>
+        {% endif %}
+      {% else %}
+        {% assign products = section.settings.products %}
+        {% if section.settings.collection %}
+          {% assign products = section.settings.collection.products | slice: 0, 12 %}
+        {% endif %}
+        {% if products.size > 0 %}
           {% for product in products %}
-            <div class="swiper-slide" style="background-image: url('{{ product.featured_image | img_url: 'master' }}');" data-swiper-parallax="-200">
+            <div class="swiper-slide" style="background-image: url('{{ product.featured_image | img_url: 'master' | default: 'https://via.placeholder.com/1920x600' }}');" data-swiper-parallax="-200">
               <div class="swiper-slide-overlay"></div>
               <div class="swiper-slide-content">
                 <h2 data-swiper-parallax="-100">{{ product.title | escape }}</h2>
@@ -169,52 +182,73 @@
               </div>
             </div>
           {% endfor %}
+        {% else %}
+          <div class="swiper-slide">
+            <div class="no-content">Select products or a collection in the theme editor to display content.</div>
+          </div>
         {% endif %}
-      </div>
-      <!-- Pagination -->
-      <div class="swiper-pagination"></div>
-      <!-- Navigation arrows -->
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
-      <!-- Scrollbar -->
-      <div class="swiper-scrollbar"></div>
+      {% endif %}
     </div>
+    <!-- Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Navigation arrows -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+    <!-- Scrollbar -->
+    <div class="swiper-scrollbar"></div>
+  </div>
 
-    <!-- Thumbs Swiper (Conditional) -->
-    {% if section.settings.enable_thumbs %}
-      <div class="swiper-container swiper-thumbs">
-        <div class="swiper-wrapper">
-          {% if section.settings.content_type == 'manual' %}
+  <!-- Thumbs Swiper (Conditional) -->
+  {% if section.settings.enable_thumbs %}
+    <div class="swiper-container swiper-thumbs">
+      <div class="swiper-wrapper">
+        {% if section.settings.content_type == 'manual' %}
+          {% if section.blocks.size > 0 %}
             {% for block in section.blocks %}
               <div class="swiper-slide">
-                <img src="{{ block.settings.image | img_url: 'small' }}" alt="{{ block.settings.title | escape }}">
+                <img src="{{ block.settings.image | img_url: 'small' | default: 'https://via.placeholder.com/100' }}" alt="{{ block.settings.title | escape }}">
               </div>
             {% endfor %}
           {% else %}
-            {% assign products = section.settings.products %}
-            {% if section.settings.collection %}
-              {% assign products = section.settings.collection.products | slice: 0, 12 %}
-            {% endif %}
+            <div class="swiper-slide">
+              <img src="https://via.placeholder.com/100" alt="No content">
+            </div>
+          {% endif %}
+        {% else %}
+          {% assign products = section.settings.products %}
+          {% if section.settings.collection %}
+            {% assign products = section.settings.collection.products | slice: 0, 12 %}
+          {% endif %}
+          {% if products.size > 0 %}
             {% for product in products %}
               <div class="swiper-slide">
-                <img src="{{ product.featured_image | img_url: 'small' }}" alt="{{ product.title | escape }}">
+                <img src="{{ product.featured_image | img_url: 'small' | default: 'https://via.placeholder.com/100' }}" alt="{{ product.title | escape }}">
               </div>
             {% endfor %}
+          {% else %}
+            <div class="swiper-slide">
+              <img src="https://via.placeholder.com/100" alt="No products">
+            </div>
           {% endif %}
-        </div>
+        {% endif %}
       </div>
-    {% endif %}
-  </div>
+    </div>
+  {% endif %}
+</div>
 
-  <!-- Swiper.js CDN -->
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<!-- Swiper.js CDN -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
-  <!-- Initialize Swiper -->
-  <script>
-    function initializeSwiper(sectionId) {
+<!-- Initialize Swiper -->
+<script>
+  function initializeSwiper(sectionId) {
+    try {
       const section = document.getElementById('swiper-section-' + sectionId);
-      if (!section) return;
+      if (!section) {
+        console.error('Swiper section not found for ID: ' + sectionId);
+        return;
+      }
 
       // Thumbs Swiper (only if enabled)
       let thumbsSwiper = null;
@@ -273,19 +307,21 @@
           }
         {% endif %}
       });
+    } catch (error) {
+      console.error('Error initializing Swiper for section ' + sectionId + ':', error);
     }
+  }
 
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', function () {
-      initializeSwiper('{{ section.id }}');
-    });
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', function () {
+    initializeSwiper('{{ section.id }}');
+  });
 
-    // Initialize on section load (Shopify theme editor)
-    document.addEventListener('shopify:section:load', function (event) {
-      initializeSwiper('{{ section.id }}');
-    });
-  </script>
-{%- endif %}
+  // Initialize on section load (Shopify theme editor)
+  document.addEventListener('shopify:section:load', function (event) {
+    initializeSwiper('{{ section.id }}');
+  });
+</script>
 
 {% schema %}
 {
