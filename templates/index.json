@@ -161,12 +161,83 @@
       "settings": {
         "section_title": "Custom Container"
       }
+    },
+    "featured_product_QGTjYW": {
+      "type": "featured-product",
+      "blocks": {
+        "text_9LDYMc": {
+          "type": "text",
+          "settings": {
+            "text": "{{ section.settings.product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title_YMzLC6": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price_fKqHA3": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker_emEnwe": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector_cQTapt": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons_czBigr": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "share_DrJXQz": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "text_9LDYMc",
+        "title_YMzLC6",
+        "price_fKqHA3",
+        "variant_picker_emEnwe",
+        "quantity_selector_cQTapt",
+        "buy_buttons_czBigr",
+        "share_DrJXQz"
+      ],
+      "name": "t:sections.featured-product.presets.name",
+      "settings": {
+        "product": "example-t-shirt-3",
+        "color_scheme": "scheme-3",
+        "secondary_background": false,
+        "media_size": "small",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
     "image_banner",
     "featured_collection",
     "wpb_image_banner_Kaj6m8",
-    "custom_container_CThEaX"
+    "custom_container_CThEaX",
+    "featured_product_QGTjYW"
   ]
 }
